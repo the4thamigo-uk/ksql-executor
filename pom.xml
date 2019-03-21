@@ -10,7 +10,7 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<kafka.version>2.1.1</kafka.version>
-		<confluent.version>5.1.2</confluent.version>
+		<confluent.ksql.version>5.1.2</confluent.ksql.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
     <jar.with.deps>jar-with-dependencies</jar.with.deps>
@@ -53,7 +53,7 @@
 		<dependency>
 			<groupId>io.confluent.ksql</groupId>
 			<artifactId>ksql-engine</artifactId>
-			<version>${confluent.version}</version>
+			<version>${confluent.ksql.version}</version>
 		</dependency>
 	</dependencies>
 	<build>

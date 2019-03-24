@@ -4,7 +4,6 @@ script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $script_dir/env.sh
 
 topic="$1"
-key_schema="$(cat $script_dir/schema/key.avsc)"
-value_schema="$(cat $script_dir/schema/value.avsc)"
+schema_dir=$script_dir/schema
 
-$dc exec -T schema-registry kafka-avro-console-producer --broker-list "$broker_addr" --topic "$topic" --property schema.registry.url="$schema_registry_url" --property parse.key=true --property key.schema="$key_schema" --property value.schema="$value_schema"
+$script_dir/produce_avro.sh $topic $schema_dir/key.avsc $schema_dir/$topic.avsc

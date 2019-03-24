@@ -7,15 +7,10 @@ import java.util.stream.Collectors;
 public class ExecutorProperties {
 
 	// configuration settings
-	public static String APP_UDF_PATH = "udf.path";
 	public static String APP_KSQL_QUERY = "ksql.query";
 
 	// data members
 	private final Properties props = new Properties();
-
-	public ExecutorProperties() {
-		put(APP_UDF_PATH, ".");
-	}
 
 	public void loadFromProperties(Properties props) {
 		props.forEach((k, v) -> put(String.valueOf(k), String.valueOf(v)));
@@ -47,9 +42,5 @@ public class ExecutorProperties {
 
 	public String getKsqlQuery() {
 		return props.getProperty(APP_KSQL_QUERY);
-	}
-
-	public String getUDFPath() {
-		return props.getProperty(APP_UDF_PATH);
 	}
 }

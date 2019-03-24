@@ -1,5 +1,6 @@
 package the4thamigouk.kafka.ksql;
 
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -14,18 +15,21 @@ public class Executor {
 
 	private static final Logger log = Logger.getLogger(Executor.class.getName());
 
-	public static void main(final String[] args) {
+	public static void main(final String[] args) throws URISyntaxException {
+		final String jarPath = Executor.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
 
 		// get the properties
 		final ExecutorProperties props = new ExecutorProperties();
 		props.loadFromEnvironment("APP_");
-		log.log(Level.INFO, "Properties: " + props.toString());
+		props.put(KsqlConfig.KSQL_EXT_DIR, jarPath);
 
 		final String ksql = args[0].trim();
-		if(ksql != null && ksql != "") {
+		if (ksql != null && ksql != "") {
 			props.put(ExecutorProperties.APP_KSQL_QUERY, ksql);
 		}
-q
+
+		log.log(Level.INFO, "Properties: " + props.toMap());
+
 		// load the KSQL config
 		final KsqlConfig cfg = new KsqlConfig(props.innerProps());
 		log.log(Level.INFO, "KSQL configuration: " + cfg.toString());
@@ -34,8 +38,9 @@ q
 		final KsqlContext ctx = KsqlContext.create(cfg);
 
 		// load udfs into engine
+		// Note: this is a hack where we reload our own jar to load the udfs
 		final MetaStore metastore = ctx.getMetaStore();
-		UdfLoader.newInstance(cfg, metastore, props.getUDFPath()).load();
+		UdfLoader.newInstance(cfg, metastore, jarPath).load();
 		log.log(Level.INFO, "UDFs: "
 				+ metastore.listFunctions().stream().map(UdfFactory::getName).collect(Collectors.joining(",")));
 

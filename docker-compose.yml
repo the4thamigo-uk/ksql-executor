@@ -48,11 +48,3 @@ services:
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:2181'
-
-  kafkacat:
-    image: confluentinc/cp-kafkacat
-    container_name: kafkacat
-    depends_on:
-      - broker
-    entrypoint: /bin/sh
-    tty: true

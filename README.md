@@ -25,7 +25,7 @@ cat ./data/x.dat | ./produce.sh x
 Start a KSQL executor container to send the data from topic 'x' to topic 'z'
 
 ```
-docker run -ti --network ksql-docker_default ksql-executor "create stream x with(kafka_topic='x', value_format='avro'); create stream y with(kafka_topic='z') as select * from x;"
+docker run -ti --network ksql-executor_default ksql-executor "create stream x with(kafka_topic='x', value_format='avro'); create stream y with(kafka_topic='z') as select * from x;"
 ```
 
 Verify that some data was forwarded to topic 'z'

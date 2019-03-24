@@ -7,6 +7,6 @@ docker run --env-file <(cat << EOF
 APP_KSQL_SCHEMA_REGISTRY_URL=http://schema-registry:8081
 APP_BOOTSTRAP_SERVERS=broker:9092
 APP_AUTO_OFFSET_RESET=earliest
+APP_KSQL_QUERY=create stream x with(kafka_topic='x', value_format='avro'); create stream y with(kafka_topic='y') as select * from x;
 EOF
-) -ti --network ksql-executor_default ksql-executor "create stream x with(kafka_topic='x', value_format='avro'); create stream y with(kafka_topic='y') as select * from x;"
-
+) -ti --network ksql-executor_default ksql-executor $1

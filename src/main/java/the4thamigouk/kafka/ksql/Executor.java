@@ -23,9 +23,11 @@ public class Executor {
 		props.loadFromEnvironment("APP_");
 		props.put(KsqlConfig.KSQL_EXT_DIR, jarPath);
 
-		final String ksql = args[0].trim();
-		if (ksql != null && ksql != "") {
-			props.put(ExecutorProperties.APP_KSQL_QUERY, ksql);
+		if (args.length > 0) {
+			final String ksql = args[0].trim();
+			if(ksql != "") {
+				props.put(ExecutorProperties.APP_KSQL_QUERY, ksql);
+			}
 		}
 
 		log.log(Level.INFO, "Properties: " + props.toMap());
